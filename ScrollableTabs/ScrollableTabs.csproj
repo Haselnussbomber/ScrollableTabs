@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <!-- Project settings -->
+  <PropertyGroup>
+    <Name>Scrollable Tabs</Name>
+    <Version>1.0.0</Version>
+    <Author>Haselnussbomber</Author>
+    <RepoUrl>https://github.com/Haselnussbomber/ScrollableTabs</RepoUrl>
+    <Punchline>Lets you use the mouse wheel to switch tabs (like LB/RB on controllers do).</Punchline>
+    <Description>Lets you use the mouse wheel to switch tabs (like LB/RB on controllers do).
+
+The following windows are supported and can be toggled individually:
+
+- Aether Currents
+- Armoury Chest
+- Blue Magic Spellbook
+- Character
+- Character -> Classes/Jobs
+- Character -> Reputation
+- Chocobo Saddlebag
+- Companion
+- Currency
+- Facewear
+- Fashion Accessories
+- Field Records
+- Fish Guide
+- Glamour Dresser (scrolls pages, not tabs)
+- Gold Saucer -> Card List
+- Gold Saucer -> Decks -> Edit Deck
+- Gold Saucer -> Lord of Verminion -> Minion Hotbar
+- Inventory
+- Island Minion Guide
+- Minions
+- Mounts
+- Retainer Inventory
+- Shared FATE
+- Sightseeing Log
+
+The Command Panel already includes this functionality and instead has an option to disable its tab-scrolling sound effect.</Description>
+  </PropertyGroup>
+
+  <!-- Build settings -->
+  <PropertyGroup>
+    <OutputPath>..\bin\</OutputPath>
+  </PropertyGroup>
+
+  <!-- Assets -->
+  <ItemGroup>
+    <None Condition="'$(Configuration)' == 'Debug'" Include="Assets\Icon.png" Link="images\icon.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- NuGet dependencies -->
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="4.15.0" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
