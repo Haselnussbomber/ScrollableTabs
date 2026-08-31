@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.1.0] (2026-08-31)
 
 - **Added:** Support for the Icons window. The one that can be opened when setting a macro icon.
 
@@ -8,5 +8,6 @@
 
 First release. 🥳
 
-[unreleased]: https://github.com/Haselnussbomber/ScrollableTabs/compare/v1.0.0...main
+[unreleased]: https://github.com/Haselnussbomber/ScrollableTabs/compare/v1.1.0...main
+[1.1.0]: https://github.com/Haselnussbomber/ScrollableTabs/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Haselnussbomber/ScrollableTabs/commit/6fbf4da3c254586cb8e23329938edfc9823c4e8f
