@@ -11,6 +11,7 @@ public static class Services
     public static IFramework Framework { get; private set; } = null!;
     public static IGameConfig GameConfig { get; private set; } = null!;
     public static ISigScanner SigScanner { get; private set; } = null!;
+    public static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
     public static PluginConfig Config { get; private set; } = null!;
 
     public static void Initialize(IDalamudPluginInterface pluginInterface)
@@ -20,6 +21,7 @@ public static class Services
         Framework = pluginInterface.GetService<IFramework>();
         GameConfig  = pluginInterface.GetService<IGameConfig>();
         SigScanner = pluginInterface.GetService<ISigScanner>();
+        GameInteropProvider = pluginInterface.GetService<IGameInteropProvider>();
         Config = PluginConfig.Load();
     }
 

@@ -23,6 +23,7 @@ The following windows are supported and can be toggled individually:
 - Gold Saucer -> Card List
 - Gold Saucer -> Decks -> Edit Deck
 - Gold Saucer -> Lord of Verminion -> Minion Hotbar
+- Icons
 - Inventory
 - Island Minion Guide
 - Minions

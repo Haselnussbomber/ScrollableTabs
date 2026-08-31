@@ -78,6 +78,7 @@ public class ConfigWindow : Window, IDisposable
                 DrawBool("HandleGoldSaucerCardList", ref config.HandleGoldSaucerCardList);
                 DrawBool("HandleGoldSaucerCardDeckEdit", ref config.HandleGoldSaucerCardDeckEdit);
                 DrawBool("HandleLovmPaletteEdit", ref config.HandleLovmPaletteEdit);
+                DrawBool("HandleListIcon", ref config.HandleListIcon);
                 DrawBool("HandleInventory", ref config.HandleInventory);
                 DrawBool("HandleMJIMinionNoteBook", ref config.HandleMJIMinionNoteBook);
                 DrawBool("HandleMinionNoteBook", ref config.HandleMinionNoteBook);

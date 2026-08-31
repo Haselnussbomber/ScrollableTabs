@@ -89,6 +89,7 @@ public partial class PluginConfig
     public bool HandleGoldSaucerCardList = true;
     public bool HandleGoldSaucerCardDeckEdit = true;
     public bool HandleLovmPaletteEdit = true;
+    public bool HandleListIcon = true;
     public bool HandleInventory = true;
     public bool HandleMJIMinionNoteBook = true;
     public bool HandleMinionNoteBook = true;

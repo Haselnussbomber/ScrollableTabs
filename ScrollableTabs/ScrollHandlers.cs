@@ -93,6 +93,10 @@ public static unsafe class ScrollHandlers
                 UpdateInventoryRetainerLarge(wheelState);
                 break;
 
+            case "ListIcon":
+                UpdateListIcon(unitBase.Cast<ScrollableTabsAddonListIcon>(), wheelState);
+                break;
+
             case "MinionNoteBook":
             case "MountNoteBook":
                 UpdateMountMinion(unitBase.Cast<AddonMinionMountBase>(), wheelState);
@@ -375,6 +379,21 @@ public static unsafe class ScrollHandlers
         {
             addon->ReceiveEvent(AtkEventType.ButtonClick, eventParam, &atkEvent);
         }
+    }
+
+    public static void UpdateListIcon(ScrollableTabsAddonListIcon* addon, int wheelState)
+    {
+        if (!Services.Config.HandleListIcon)
+            return;
+
+        if (addon->TotalItemCount == 0)
+            return;
+
+        var page = GetTabIndex(addon->CurrentPage, addon->LastPage + 1, wheelState);
+        if (addon->CurrentPage == page)
+            return;
+
+        ListIconInterop.Instance.Value.SetPage?.Invoke(addon, page);
     }
 
     public static void UpdateMountMinion(AddonMinionMountBase* addon, int wheelState)

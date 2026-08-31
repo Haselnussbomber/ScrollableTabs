@@ -151,6 +151,10 @@ public static class Localization
             { "de", "Aktiviere für Inventar" },
             { "zh", "在物品栏窗口启用" }
         },
+        ["Config.HandleListIcon.Label"] = new() {
+            { "en", "Enable in Icons" },
+            { "de", "Aktiviere für Icons" }
+        },
         ["Config.HandleMJIMinionNoteBook.Label"] = new() {
             { "en", "Enable in Island Minion Guide" },
             { "de", "Aktiviere für Insel-Begleiterliste" },
