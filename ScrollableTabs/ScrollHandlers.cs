@@ -94,7 +94,7 @@ public static unsafe class ScrollHandlers
                 break;
 
             case "ListIcon":
-                UpdateListIcon(unitBase.Cast<ScrollableTabsAddonListIcon>(), wheelState);
+                UpdateListIcon(unitBase.Cast<AddonListIcon>(), wheelState);
                 break;
 
             case "MinionNoteBook":
@@ -384,7 +384,7 @@ public static unsafe class ScrollHandlers
         }
     }
 
-    public static void UpdateListIcon(ScrollableTabsAddonListIcon* addon, int wheelState)
+    public static void UpdateListIcon(AddonListIcon* addon, int wheelState)
     {
         if (!Services.Config.HandleListIcon)
             return;
@@ -396,7 +396,7 @@ public static unsafe class ScrollHandlers
         if (addon->CurrentPage == page)
             return;
 
-        ListIconInterop.Instance.Value.SetPage?.Invoke(addon, page);
+        addon->SetPage(page);
     }
 
     public static void UpdateMountMinion(AddonMinionMountBase* addon, int wheelState)
