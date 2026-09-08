@@ -161,6 +161,10 @@ public static class Localization
             { "zh", "在岛内宠物列表窗口启用" },
             { "ja", "島のミニオン図鑑で有効化" }
         },
+        ["Config.HandleXBMMonsterNotebook.Label"] = new() {
+            { "en", "Enable in Master's Bestiary" },
+            { "de", "Aktiviere für Bestienbuch" }
+        },
         ["Config.HandleMinionNoteBook.Label"] = new() {
             { "en", "Enable in Minions" },
             { "de", "Aktiviere für Begleiter-Verzeichnis" },

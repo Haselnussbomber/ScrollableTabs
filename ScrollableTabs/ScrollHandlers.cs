@@ -154,6 +154,9 @@ public static unsafe class ScrollHandlers
             case "OrnamentNoteBook":
                 UpdateTabController(unitBase, &unitBase.Cast<AddonOrnamentNoteBook>()->TabController, Services.Config.HandleOrnamentNoteBook, wheelState);
                 break;
+            case "XBMMonsterNotebook":
+                UpdateTabController(unitBase, &unitBase.Cast<CustomAddonXBMMonsterNotebook>()->TabController, Services.Config.HandleXBMMonsterNotebook, wheelState);
+                break;
         }
     }
 

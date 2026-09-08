@@ -26,6 +26,7 @@ The following windows are supported and can be toggled individually:
 - Icons
 - Inventory
 - Island Minion Guide
+- Master's Bestiary
 - Minions
 - Mounts
 - Retainer Inventory

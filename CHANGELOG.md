@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+
+- **Added:** Support for the Master's Bestiary window.
+
 ## [1.1.0] (2026-08-31)
 
 - **Added:** Support for the Icons window. The one that can be opened when setting a macro icon.

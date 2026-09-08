@@ -81,6 +81,7 @@ public class ConfigWindow : Window, IDisposable
                 DrawBool("HandleListIcon", ref config.HandleListIcon);
                 DrawBool("HandleInventory", ref config.HandleInventory);
                 DrawBool("HandleMJIMinionNoteBook", ref config.HandleMJIMinionNoteBook);
+                DrawBool("HandleXBMMonsterNotebook", ref config.HandleXBMMonsterNotebook);
                 DrawBool("HandleMinionNoteBook", ref config.HandleMinionNoteBook);
                 DrawBool("HandleMountNoteBook", ref config.HandleMountNoteBook);
                 DrawBool("HandleRetainer", ref config.HandleRetainer);

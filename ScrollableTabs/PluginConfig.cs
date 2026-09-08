@@ -92,6 +92,7 @@ public partial class PluginConfig
     public bool HandleListIcon = true;
     public bool HandleInventory = true;
     public bool HandleMJIMinionNoteBook = true;
+    public bool HandleXBMMonsterNotebook = true;
     public bool HandleMinionNoteBook = true;
     public bool HandleMountNoteBook = true;
     public bool HandleRetainer = true;
