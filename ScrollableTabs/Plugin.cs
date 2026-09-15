@@ -613,13 +613,7 @@ public unsafe class Plugin(
             return;
 
         addon->SetTab(tabIndex);
-
-        for (var i = 0; i < NumBuddyTabs; i++)
-        {
-            var button = addon->RadioButtons.GetPointer(i);
-            if (button->Value != null)
-                button->Value->IsSelected = i == addon->TabIndex;
-        }
+        addon->RadioButtons[tabIndex].Value->SetActive();
     }
 
     public void UpdateMiragePrismPrismBox(AddonMiragePrismPrismBox* addon, int wheelState)
@@ -677,12 +671,7 @@ public unsafe class Plugin(
 
         _addonSatisfactionListSetTab?.Invoke(addon, tabIndex);
 
-        for (var i = 0; i < addon->TabCount; i++)
-        {
-            var button = addon->Tabs.GetPointer(i);
-            if (button->Value != null)
-                button->Value->IsSelected = i == addon->TabIndex;
-        }
+        addon->Tabs[tabIndex].Value->SetActive();
     }
 
     public void UpdateGlassSelect(AddonGlassSelect* addon, int wheelState)
@@ -692,12 +681,7 @@ public unsafe class Plugin(
 
         UpdateTabController((AtkUnitBase*)addon, &addon->TabController, true, wheelState);
 
-        for (var i = 0; i < addon->TabController.TabCount; i++)
-        {
-            var button = addon->Tabs.GetPointer(i);
-            if (button->Value != null)
-                button->Value->IsSelected = i == addon->TabController.TabIndex;
-        }
+        addon->Tabs[addon->TabController.TabIndex].Value->SetActive();
     }
 
     public void UpdateCharacter(int wheelState)
@@ -720,13 +704,7 @@ public unsafe class Plugin(
             return;
 
         addon->SetTab(tabIndex);
-
-        for (var i = 0; i < addon->TabCount; i++)
-        {
-            var button = addon->Tabs.GetPointer(i);
-            if (button->Value != null)
-                button->Value->IsSelected = i == addon->TabIndex;
-        }
+        addon->Tabs[tabIndex].Value->SetActive();
     }
 
     public void UpdateCharacterClass(AddonCharacterClass* addon, int wheelState)
