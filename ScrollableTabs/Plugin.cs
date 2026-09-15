@@ -656,12 +656,9 @@ public unsafe class Plugin(
         agent->UpdateItems(false, false);
     }
 
-    private void UpdateSatisfactionList(CustomAddonSatisfactionList* customAddonSatisfactionList, int wheelState)
+    private void UpdateSatisfactionList(CustomAddonSatisfactionList* addon, int wheelState)
     {
         if (!_config.HandleSatisfactionList)
-            return;
-
-        if (!TryGetAddon<CustomAddonSatisfactionList>("SatisfactionList"u8, out var addon))
             return;
 
         var tabIndex = GetTabIndex(addon->TabIndex, addon->TabCount, wheelState);
