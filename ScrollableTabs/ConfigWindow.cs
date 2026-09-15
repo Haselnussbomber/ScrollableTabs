@@ -3,12 +3,14 @@ using System.Numerics;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dalamud.Bindings.ImGui;
+using Dalamud.Game.Command;
 using Dalamud.Interface;
 using Dalamud.Interface.ImGuiSeStringRenderer;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
 
@@ -17,12 +19,15 @@ namespace ScrollableTabs;
 public class ConfigWindow : Window, IDisposable
 {
     private readonly IDalamudPluginInterface _pluginInterface;
+    private readonly ICommandManager _commandManager;
     private readonly PluginConfig _config;
     private readonly PluginLocalization _localization;
+    private readonly CommandInfo _commandInfo;
 
-    public ConfigWindow(IDalamudPluginInterface pluginInterface, PluginConfig config, PluginLocalization localization) : base("ScrollableTabsConfig")
+    public ConfigWindow(IDalamudPluginInterface pluginInterface, ICommandManager commandManager, PluginConfig config, PluginLocalization localization) : base("ScrollableTabsConfig")
     {
         _pluginInterface = pluginInterface;
+        _commandManager = commandManager;
         _config = config;
         _localization = localization;
 
@@ -38,17 +43,26 @@ public class ConfigWindow : Window, IDisposable
 
         _pluginInterface.LanguageChanged += OnLanguageChanged;
         _pluginInterface.UiBuilder.OpenConfigUi += Toggle;
+
+        _commandInfo = new CommandInfo((_, _) => Toggle())
+        {
+            HelpMessage = _localization.Translate("ConfigWindow.CommandHelpMessage")
+        };
+
+        commandManager.AddHandler("/scrollabletabs", _commandInfo);
     }
 
     public void Dispose()
     {
         _pluginInterface.LanguageChanged -= OnLanguageChanged;
         _pluginInterface.UiBuilder.OpenConfigUi -= Toggle;
+        _commandManager.RemoveHandler("/scrollabletabs");
     }
 
     private void OnLanguageChanged(string langCode)
     {
         WindowName = $"{_localization.Translate("ConfigWindow.WindowName")}##ScrollableTabsConfig";
+        _commandInfo.HelpMessage = _localization.Translate("ConfigWindow.CommandHelpMessage");
     }
 
     public override void Draw()

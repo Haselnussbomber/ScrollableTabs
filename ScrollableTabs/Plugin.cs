@@ -18,6 +18,7 @@ public unsafe class Plugin(
     IFramework framework,
     IGameConfig gameConfig,
     ISigScanner sigScanner,
+    ICommandManager commandManager,
     IGameInteropProvider gameInteropProvider) : IAsyncDalamudPlugin
 {
     public const int NumArmouryBoardTabs = 12;
@@ -42,7 +43,7 @@ public unsafe class Plugin(
     {
         gameInteropProvider.InitializeFromAttributes(this);
 
-        _configWindow = new ConfigWindow(pluginInterface, _config, _localization);
+        _configWindow = new ConfigWindow(pluginInterface, commandManager, _config, _localization);
         _windowSystem.AddWindow(_configWindow);
         _patch = new(sigScanner, _config);
 

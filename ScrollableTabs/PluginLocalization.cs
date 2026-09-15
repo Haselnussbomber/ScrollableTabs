@@ -21,6 +21,10 @@ public class PluginLocalization(IDalamudPluginInterface pluginInterface)
             { "en", "Support me on GitHub Sponsors" },
             { "de", "Unterstütze mich auf GitHub Sponsors" }
         },
+        ["ConfigWindow.CommandHelpMessage"] = new() {
+            { "en", "Opens the configuration window" },
+            { "de", "Öffnet das Konfigurationsfenster" }
+        },
         ["Config.Invert.Label"] = new() {
             { "en", "Invert scroll behaviour" },
             { "de", "Invertiertes Scrollverhalten" },

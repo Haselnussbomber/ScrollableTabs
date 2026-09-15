@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - **Added:** Support for the Client List window (via /timers).
+- **Added:** A /scrollabletabs chat command to open the configuration window.
 
 ## [1.2.0] (2026-09-08)
 
