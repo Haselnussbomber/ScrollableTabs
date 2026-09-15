@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -16,7 +17,8 @@ public unsafe class Plugin(
     IPluginLog pluginLog,
     IFramework framework,
     IGameConfig gameConfig,
-    ISigScanner sigScanner) : IAsyncDalamudPlugin
+    ISigScanner sigScanner,
+    IGameInteropProvider gameInteropProvider) : IAsyncDalamudPlugin
 {
     public const int NumArmouryBoardTabs = 12;
     public const int NumInventoryTabs = 5;
@@ -33,8 +35,13 @@ public unsafe class Plugin(
     private ConfigWindow? _configWindow;
     private QuickPanelPlaySoundEffectPatch? _patch;
 
+    [Signature("40 56 48 83 EC ?? 48 8B F1 45 84 C0 75 ?? 3B 91 ?? ?? ?? ?? 0F 84 ?? ?? ?? ?? 8B 81")]
+    public CustomAddonSatisfactionList.SetTabDelegate? _addonSatisfactionListSetTab { get; set; }
+
     public Task LoadAsync(CancellationToken cancellationToken)
     {
+        gameInteropProvider.InitializeFromAttributes(this);
+
         _configWindow = new ConfigWindow(pluginInterface, _config, _localization);
         _windowSystem.AddWindow(_configWindow);
         _patch = new(sigScanner, _config);
@@ -200,6 +207,9 @@ public unsafe class Plugin(
                 break;
             case "MiragePrismPrismBox":
                 UpdateMiragePrismPrismBox(unitBase.Cast<AddonMiragePrismPrismBox>(), wheelState);
+                break;
+            case "SatisfactionList":
+                UpdateSatisfactionList(unitBase.Cast<CustomAddonSatisfactionList>(), wheelState);
                 break;
 
             case "AdventureNoteBook":
@@ -656,6 +666,29 @@ public unsafe class Plugin(
         var agent = AgentMiragePrismPrismBox.Instance();
         agent->PageIndex += (byte)wheelState;
         agent->UpdateItems(false, false);
+    }
+
+    private void UpdateSatisfactionList(CustomAddonSatisfactionList* customAddonSatisfactionList, int wheelState)
+    {
+        if (!_config.HandleSatisfactionList)
+            return;
+
+        if (!TryGetAddon<CustomAddonSatisfactionList>("SatisfactionList"u8, out var addon))
+            return;
+
+        var tabIndex = GetTabIndex(addon->TabIndex, addon->TabCount, wheelState);
+
+        if (addon->TabIndex == tabIndex)
+            return;
+
+        _addonSatisfactionListSetTab?.Invoke(addon, tabIndex);
+
+        for (var i = 0; i < addon->TabCount; i++)
+        {
+            var button = addon->Tabs.GetPointer(i);
+            if (button->Value != null)
+                button->Value->IsSelected = i == addon->TabIndex;
+        }
     }
 
     public void UpdateGlassSelect(AddonGlassSelect* addon, int wheelState)

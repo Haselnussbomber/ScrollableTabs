@@ -193,7 +193,11 @@ public class PluginLocalization(IDalamudPluginInterface pluginInterface)
             { "en", "Enable in Sightseeing Log" },
             { "de", "Aktiviere für Eorzea Incognita" },
             { "zh", "在探索笔记窗口启用" }
-        }
+        },
+        ["Config.HandleSatisfactionList.Label"] = new() {
+            { "en", "Enable in Client List (via /timers)" },
+            { "de", "Aktiviere für Wunschlieferungen (via /timers)" }
+        },
     }.ToFrozenDictionary();
 
     public string Translate(string key)

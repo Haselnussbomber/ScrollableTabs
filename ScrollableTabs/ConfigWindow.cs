@@ -75,6 +75,7 @@ public class ConfigWindow : Window, IDisposable
                 DrawBool("HandleCharacterRepute", ref _config.HandleCharacterRepute);
                 DrawBool("HandleInventoryBuddy", ref _config.HandleInventoryBuddy);
                 DrawBool("HandleBuddy", ref _config.HandleBuddy);
+                DrawBool("HandleSatisfactionList", ref _config.HandleSatisfactionList);
                 DrawBool("HandleCurrency", ref _config.HandleCurrency);
                 DrawBool("HandleGlassSelect", ref _config.HandleGlassSelect);
                 DrawBool("HandleOrnamentNoteBook", ref _config.HandleOrnamentNoteBook);

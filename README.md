@@ -13,6 +13,7 @@ The following windows are supported and can be toggled individually:
 - Character -> Classes/Jobs
 - Character -> Reputation
 - Chocobo Saddlebag
+- Client List (via /timers)
 - Companion
 - Currency
 - Facewear

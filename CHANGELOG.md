@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+
+- **Added:** Support for the Client List window (via /timers).
+
 ## [1.2.0] (2026-09-08)
 
 - **Added:** Support for the Master's Bestiary window.

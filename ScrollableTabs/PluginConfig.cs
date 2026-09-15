@@ -91,6 +91,7 @@ public partial class PluginConfig
     public bool HandleCharacterRepute = true;
     public bool HandleInventoryBuddy = true;
     public bool HandleBuddy = true;
+    public bool HandleSatisfactionList = true;
     public bool HandleCurrency = true;
     public bool HandleGlassSelect = true;
     public bool HandleOrnamentNoteBook = true;
