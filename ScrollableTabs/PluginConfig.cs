@@ -4,6 +4,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using Dalamud.Configuration;
+using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 
 namespace ScrollableTabs;
@@ -19,17 +21,26 @@ public partial class PluginConfig : IPluginConfiguration
     [JsonIgnore]
     public static JsonSerializerOptions? SerializerOptions { get; private set; }
 
+    [JsonIgnore]
+    private static IDalamudPluginInterface PluginInterface { get; set; } = null!;
+
+    [JsonIgnore]
+    private static IPluginLog PluginLog { get; set; } = null!;
+
     public event Action<string>? ConfigOptionChanged;
 
-    public static PluginConfig Load()
+    public static PluginConfig Load(IDalamudPluginInterface pluginInterface, IPluginLog pluginLog)
     {
+        PluginInterface = pluginInterface;
+        PluginLog = pluginLog;
+
         SerializerOptions = new JsonSerializerOptions()
         {
             IncludeFields = true,
             WriteIndented = true,
         };
 
-        var fileInfo = Services.PluginInterface.ConfigFile;
+        var fileInfo = pluginInterface.ConfigFile;
         if (!fileInfo.Exists || fileInfo.Length < 2)
             return new();
 
@@ -49,14 +60,14 @@ public partial class PluginConfig : IPluginConfiguration
 
             if (LastSavedConfigHash != hash)
             {
-                FilesystemUtil.WriteAllTextSafe(Services.PluginInterface.ConfigFile.FullName, serialized);
+                FilesystemUtil.WriteAllTextSafe(PluginInterface.ConfigFile.FullName, serialized);
                 LastSavedConfigHash = hash;
-                Services.PluginLog.Information("Configuration saved.");
+                PluginLog.Information("Configuration saved.");
             }
         }
         catch (Exception e)
         {
-            Services.PluginLog.Error(e, "Error saving config");
+            PluginLog.Error(e, "Error saving config");
         }
     }
 

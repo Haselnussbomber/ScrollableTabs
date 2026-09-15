@@ -1,30 +1,35 @@
 using System;
 using Dalamud.Memory;
+using Dalamud.Plugin.Services;
 
 namespace ScrollableTabs;
 
 public class QuickPanelPlaySoundEffectPatch : IDisposable
 {
-    private static nint Address;
+    private readonly PluginConfig _config;
+
+    private readonly nint _address;
 
     private byte[]? _originalBytes;
 
-    public QuickPanelPlaySoundEffectPatch()
+    public QuickPanelPlaySoundEffectPatch(ISigScanner sigScanner, PluginConfig config)
     {
-        if (Address == 0)
-            Services.SigScanner.TryScanText("41 B8 0D 00 00 00 48 8D 54 24 ?? 48 8B 48 ?? ?? ?? ?? FF 50 ?? 48 8D 4C 24 ?? E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 0F B6 47", out Address);
+        _config = config;
 
-        if (Services.Config.SuppressQuickPanelSounds)
+        if (_address == 0)
+            sigScanner.TryScanText("41 B8 0D 00 00 00 48 8D 54 24 ?? 48 8B 48 ?? ?? ?? ?? FF 50 ?? 48 8D 4C 24 ?? E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 0F B6 47", out _address);
+
+        if (_config.SuppressQuickPanelSounds)
             Enable();
 
-        Services.Config.ConfigOptionChanged += OnConfigChange;
+        _config.ConfigOptionChanged += OnConfigChange;
     }
 
     private void OnConfigChange(string fieldName)
     {
         if (fieldName == nameof(PluginConfig.SuppressQuickPanelSounds))
         {
-            if (Services.Config.SuppressQuickPanelSounds)
+            if (_config.SuppressQuickPanelSounds)
                 Enable();
             else
                 Disable();
@@ -33,22 +38,22 @@ public class QuickPanelPlaySoundEffectPatch : IDisposable
 
     public void Enable()
     {
-        if (Address != 0 && _originalBytes == null)
-            _originalBytes = ReplaceRaw(Address, [0xEB, 0x13]);
+        if (_address != 0 && _originalBytes == null)
+            _originalBytes = ReplaceRaw(_address, [0xEB, 0x13]);
     }
 
     public void Disable()
     {
-        if (Address != 0 && _originalBytes != null)
+        if (_address != 0 && _originalBytes != null)
         {
-            ReplaceRaw(Address, _originalBytes);
+            ReplaceRaw(_address, _originalBytes);
             _originalBytes = null;
         }
     }
 
     public void Dispose()
     {
-        Services.Config.ConfigOptionChanged -= OnConfigChange;
+        _config.ConfigOptionChanged -= OnConfigChange;
         Disable();
     }
 

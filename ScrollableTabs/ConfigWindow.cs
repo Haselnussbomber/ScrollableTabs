@@ -8,16 +8,24 @@ using Dalamud.Interface.ImGuiSeStringRenderer;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using Dalamud.Plugin;
 using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
-using static ScrollableTabs.Localization;
 
 namespace ScrollableTabs;
 
 public class ConfigWindow : Window, IDisposable
 {
-    public ConfigWindow() : base("ScrollableTabsConfig")
+    private readonly IDalamudPluginInterface _pluginInterface;
+    private readonly PluginConfig _config;
+    private readonly PluginLocalization _localization;
+
+    public ConfigWindow(IDalamudPluginInterface pluginInterface, PluginConfig config, PluginLocalization localization) : base("ScrollableTabsConfig")
     {
+        _pluginInterface = pluginInterface;
+        _config = config;
+        _localization = localization;
+
         AllowClickthrough = false;
         AllowPinning = false;
 
@@ -26,27 +34,25 @@ public class ConfigWindow : Window, IDisposable
         Size = new Vector2(500, 500);
         SizeCondition = ImGuiCond.Appearing;
 
-        WindowName = $"{t("ConfigWindow.WindowName")}##ScrollableTabsConfig";
+        WindowName = $"{_localization.Translate("ConfigWindow.WindowName")}##ScrollableTabsConfig";
 
-        Services.PluginInterface.LanguageChanged += OnLanguageChanged;
-        Services.PluginInterface.UiBuilder.OpenConfigUi += Toggle;
+        _pluginInterface.LanguageChanged += OnLanguageChanged;
+        _pluginInterface.UiBuilder.OpenConfigUi += Toggle;
     }
 
     public void Dispose()
     {
-        Services.PluginInterface.LanguageChanged -= OnLanguageChanged;
-        Services.PluginInterface.UiBuilder.OpenConfigUi -= Toggle;
+        _pluginInterface.LanguageChanged -= OnLanguageChanged;
+        _pluginInterface.UiBuilder.OpenConfigUi -= Toggle;
     }
 
     private void OnLanguageChanged(string langCode)
     {
-        WindowName = $"{t("ConfigWindow.WindowName")}##ScrollableTabsConfig";
+        WindowName = $"{_localization.Translate("ConfigWindow.WindowName")}##ScrollableTabsConfig";
     }
 
     public override void Draw()
     {
-        var config = Services.Config;
-
         var contentAvail = ImGui.GetContentRegionAvail();
         var style = ImGui.GetStyle();
         var footerHeight = style.ItemSpacing.Y * 3 + ImGui.GetTextLineHeightWithSpacing();
@@ -58,35 +64,35 @@ public class ConfigWindow : Window, IDisposable
                 ImGui.TableSetupColumn("Checkbox", ImGuiTableColumnFlags.WidthFixed, ImGui.GetFrameHeight());
                 ImGui.TableSetupColumn("Text", ImGuiTableColumnFlags.WidthStretch);
 
-                DrawBool("Invert", ref config.Invert);
-                DrawBool("SuppressQuickPanelSounds", ref config.SuppressQuickPanelSounds);
+                DrawBool("Invert", ref _config.Invert);
+                DrawBool("SuppressQuickPanelSounds", ref _config.SuppressQuickPanelSounds);
 
-                DrawBool("HandleAetherCurrent", ref config.HandleAetherCurrent);
-                DrawBool("HandleArmouryBoard", ref config.HandleArmouryBoard);
-                DrawBool("HandleAOZNotebook", ref config.HandleAOZNotebook);
-                DrawBool("HandleCharacter", ref config.HandleCharacter);
-                DrawBool("HandleCharacterClass", ref config.HandleCharacterClass);
-                DrawBool("HandleCharacterRepute", ref config.HandleCharacterRepute);
-                DrawBool("HandleInventoryBuddy", ref config.HandleInventoryBuddy);
-                DrawBool("HandleBuddy", ref config.HandleBuddy);
-                DrawBool("HandleCurrency", ref config.HandleCurrency);
-                DrawBool("HandleGlassSelect", ref config.HandleGlassSelect);
-                DrawBool("HandleOrnamentNoteBook", ref config.HandleOrnamentNoteBook);
-                DrawBool("HandleFieldRecord", ref config.HandleFieldRecord);
-                DrawBool("HandleFishGuide", ref config.HandleFishGuide);
-                DrawBool("HandleMiragePrismPrismBox", ref config.HandleMiragePrismPrismBox);
-                DrawBool("HandleGoldSaucerCardList", ref config.HandleGoldSaucerCardList);
-                DrawBool("HandleGoldSaucerCardDeckEdit", ref config.HandleGoldSaucerCardDeckEdit);
-                DrawBool("HandleLovmPaletteEdit", ref config.HandleLovmPaletteEdit);
-                DrawBool("HandleListIcon", ref config.HandleListIcon);
-                DrawBool("HandleInventory", ref config.HandleInventory);
-                DrawBool("HandleMJIMinionNoteBook", ref config.HandleMJIMinionNoteBook);
-                DrawBool("HandleXBMMonsterNotebook", ref config.HandleXBMMonsterNotebook);
-                DrawBool("HandleMinionNoteBook", ref config.HandleMinionNoteBook);
-                DrawBool("HandleMountNoteBook", ref config.HandleMountNoteBook);
-                DrawBool("HandleRetainer", ref config.HandleRetainer);
-                DrawBool("HandleFateProgress", ref config.HandleFateProgress);
-                DrawBool("HandleAdventureNoteBook", ref config.HandleAdventureNoteBook);
+                DrawBool("HandleAetherCurrent", ref _config.HandleAetherCurrent);
+                DrawBool("HandleArmouryBoard", ref _config.HandleArmouryBoard);
+                DrawBool("HandleAOZNotebook", ref _config.HandleAOZNotebook);
+                DrawBool("HandleCharacter", ref _config.HandleCharacter);
+                DrawBool("HandleCharacterClass", ref _config.HandleCharacterClass);
+                DrawBool("HandleCharacterRepute", ref _config.HandleCharacterRepute);
+                DrawBool("HandleInventoryBuddy", ref _config.HandleInventoryBuddy);
+                DrawBool("HandleBuddy", ref _config.HandleBuddy);
+                DrawBool("HandleCurrency", ref _config.HandleCurrency);
+                DrawBool("HandleGlassSelect", ref _config.HandleGlassSelect);
+                DrawBool("HandleOrnamentNoteBook", ref _config.HandleOrnamentNoteBook);
+                DrawBool("HandleFieldRecord", ref _config.HandleFieldRecord);
+                DrawBool("HandleFishGuide", ref _config.HandleFishGuide);
+                DrawBool("HandleMiragePrismPrismBox", ref _config.HandleMiragePrismPrismBox);
+                DrawBool("HandleGoldSaucerCardList", ref _config.HandleGoldSaucerCardList);
+                DrawBool("HandleGoldSaucerCardDeckEdit", ref _config.HandleGoldSaucerCardDeckEdit);
+                DrawBool("HandleLovmPaletteEdit", ref _config.HandleLovmPaletteEdit);
+                DrawBool("HandleListIcon", ref _config.HandleListIcon);
+                DrawBool("HandleInventory", ref _config.HandleInventory);
+                DrawBool("HandleMJIMinionNoteBook", ref _config.HandleMJIMinionNoteBook);
+                DrawBool("HandleXBMMonsterNotebook", ref _config.HandleXBMMonsterNotebook);
+                DrawBool("HandleMinionNoteBook", ref _config.HandleMinionNoteBook);
+                DrawBool("HandleMountNoteBook", ref _config.HandleMountNoteBook);
+                DrawBool("HandleRetainer", ref _config.HandleRetainer);
+                DrawBool("HandleFateProgress", ref _config.HandleFateProgress);
+                DrawBool("HandleAdventureNoteBook", ref _config.HandleAdventureNoteBook);
             }
         }
 
@@ -96,11 +102,11 @@ public class ConfigWindow : Window, IDisposable
 
         var cursorPos = ImGui.GetCursorPos();
 
-        DrawLink("GitHub", t("ConfigWindow.GitHubLink.Tooltip"), "https://github.com/Haselnussbomber/ScrollableTabs");
+        DrawLink("GitHub", _localization.Translate("ConfigWindow.GitHubLink.Tooltip"), "https://github.com/Haselnussbomber/ScrollableTabs");
         ImGui.SameLine();
         ImGui.Text("•");
         ImGui.SameLine();
-        DrawLink("Sponsor", t("ConfigWindow.SponsorLink.Tooltip"), "https://github.com/sponsors/Haselnussbomber");
+        DrawLink("Sponsor", _localization.Translate("ConfigWindow.SponsorLink.Tooltip"), "https://github.com/sponsors/Haselnussbomber");
 
         var version = Assembly.GetExecutingAssembly().GetName().Version;
         if (version != null)
@@ -124,7 +130,7 @@ public class ConfigWindow : Window, IDisposable
 
         ImGui.TableNextColumn();
 
-        ImGui.TextWrapped(Translate($"Config.{fieldName}.Label"));
+        ImGui.TextWrapped(_localization.Translate($"Config.{fieldName}.Label"));
 
         if (ImGui.IsItemClicked())
         {
@@ -132,15 +138,15 @@ public class ConfigWindow : Window, IDisposable
             result = true;
         }
 
-        if (TryGetTranslation($"Config.{fieldName}.Description", out var description))
+        if (_localization.TryGetTranslation($"Config.{fieldName}.Description", out var description))
         {
             ImGuiHelpers.SeStringWrapped(ReadOnlySeString.FromText(description), new SeStringDrawParams() { Color = ColorText700 });
         }
 
         if (result)
         {
-            Services.Config.Save();
-            Services.Config.RaiseConfigOptionChanged(fieldName);
+            _config.Save();
+            _config.RaiseConfigOptionChanged(fieldName);
         }
 
         return result;

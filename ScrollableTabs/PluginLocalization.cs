@@ -1,10 +1,11 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Dalamud.Plugin;
 
 namespace ScrollableTabs;
 
-public static class Localization
+public class PluginLocalization(IDalamudPluginInterface pluginInterface)
 {
     private static readonly FrozenDictionary<string, Dictionary<string, string>> Localizations = new Dictionary<string, Dictionary<string, string>>()
     {
@@ -195,17 +196,14 @@ public static class Localization
         }
     }.ToFrozenDictionary();
 
-    public static string t(string key)
+    public string Translate(string key)
         => TryGetTranslation(key, out var text) ? text : key;
 
-    public static string Translate(string key)
-        => TryGetTranslation(key, out var text) ? text : key;
-
-    public static bool TryGetTranslation(string key, [MaybeNullWhen(returnValue: false)] out string text)
+    public bool TryGetTranslation(string key, [MaybeNullWhen(returnValue: false)] out string text)
     {
         text = string.Empty;
         return Localizations.TryGetValue(key, out var languages)
-            && (languages.TryGetValue(Services.PluginInterface.UiLanguage, out text)
+            && (languages.TryGetValue(pluginInterface.UiLanguage, out text)
             || languages.TryGetValue("en", out text));
     }
 }
