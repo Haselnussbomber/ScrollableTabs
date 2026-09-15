@@ -53,6 +53,6 @@ The Command Panel already includes this functionality and instead has an option 
 
   <!-- NuGet dependencies -->
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" Version="4.15.0" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.16.1" PrivateAssets="all" />
   </ItemGroup>
 </Project>
