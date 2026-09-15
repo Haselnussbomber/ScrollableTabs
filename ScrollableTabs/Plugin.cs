@@ -30,7 +30,7 @@ public unsafe class Plugin(
     public const int NumBuddyTabs = 3;
 
     private readonly PluginConfig _config = PluginConfig.Load(pluginInterface, pluginLog);
-    private readonly PluginWindowSystem _windowSystem = new(pluginInterface);
+    private readonly PluginWindowSystem _windowSystem = new(pluginInterface.UiBuilder);
     private readonly PluginLocalization _localization = new(pluginInterface);
 
     private ConfigWindow? _configWindow;
@@ -43,7 +43,7 @@ public unsafe class Plugin(
     {
         gameInteropProvider.InitializeFromAttributes(this);
 
-        _configWindow = new ConfigWindow(pluginInterface, commandManager, _config, _localization);
+        _configWindow = new(pluginInterface, commandManager, _config, _localization);
         _windowSystem.AddWindow(_configWindow);
         _patch = new(sigScanner, _config);
 
@@ -56,16 +56,9 @@ public unsafe class Plugin(
     {
         framework.Update -= OnFrameworkUpdate;
 
-        if (_configWindow != null)
-        {
-            _windowSystem?.RemoveWindow(_configWindow);
-            _configWindow.Dispose();
-            _configWindow = null;
-        }
-
-        _windowSystem?.Dispose();
+        _windowSystem.Dispose();
+        _configWindow?.Dispose();
         _patch?.Dispose();
-        _patch = null;
 
         return ValueTask.CompletedTask;
     }

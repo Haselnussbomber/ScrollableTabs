@@ -1,22 +1,22 @@
 using System;
+using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
-using Dalamud.Plugin;
 
 namespace ScrollableTabs;
 
 public class PluginWindowSystem : WindowSystem, IDisposable
 {
-    private readonly IDalamudPluginInterface _pluginInterface;
+    private readonly IUiBuilder _uiBuilder;
 
-    public PluginWindowSystem(IDalamudPluginInterface pluginInterface) : base("ScrollableTabs")
+    public PluginWindowSystem(IUiBuilder uiBuilder) : base("ScrollableTabs")
     {
-        _pluginInterface = pluginInterface;
-        _pluginInterface.UiBuilder.Draw += Draw;
+        _uiBuilder = uiBuilder;
+        _uiBuilder.Draw += Draw;
     }
 
     public void Dispose()
     {
-        _pluginInterface.UiBuilder.Draw -= Draw;
+        _uiBuilder.Draw -= Draw;
         RemoveAllWindows();
     }
 }
